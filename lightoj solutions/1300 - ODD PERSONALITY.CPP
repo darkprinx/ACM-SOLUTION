@@ -204,7 +204,6 @@ int main()
         }
 
         Mems(mark,false);
-        Mems(bip,-1);
 
         tt=0;
 
