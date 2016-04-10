@@ -1,12 +1,9 @@
-
-
 /*
    ~~~ BISMILLAH HIR RAHMANIR RAHIM ~~~
-   Problem Name: QTREE2 - Query on a tree II
-       Platform: Spoj
-     Algorithom: LCA
+   Problem Name: FILRTEST - File Recover Testing
+       Platform: SPOJ
+     Algorithom: Z algorithm
   Author's Name: RC Tushar
-
 
 
                  শুনেছি তোমার ভীষণ রাগ ?
@@ -15,8 +12,17 @@
                  পুরনো কোডের বাগ ?
 
 
- ~~~     Never Lost Hope     ~~~
+         ~~~~~ MY DEDICATION TO SOME FRIENDS ~~~~~
+
+   Kim: Whenever you start to believe  yourself, people also start to believe in you.
+  Oshy: Every programming contest is like a new life.To do better in every life you must dedicate your real life.
+ Elise: Keep studying and the improvement will come. it's a slow process but each step is rewarding.
+
+
+ ~~~     Never Lose Hope     ~~~
 */
+
+
 #include<bits/stdc++.h>
 #define pi 2*acos(0.0)
 #define PS system("pause")
@@ -38,6 +44,7 @@
 #define on(x,w)  x=x|(1<<w)
 #define check(x,w) (x&(1<<w))==(1<<w)?true:false
 #define all(x) (x).begin(),(x).end()
+#define rall(x) (x).rbegin(),(x).rend()
 #define s(n) scanf("%d",&n)
 #define sl(n) scanf("%lld",&n)
 #define pf printf
@@ -47,19 +54,16 @@
 #define sqr(x) (( (x)* (x))%MOD)
 #define cube(x)   ( (sqr(x)*(x))%MOD)
 #define bit_cnt(x)   __builtin_popcount(x)
-#define INT(c)  ((int)((c) - '0'))
-#define CHAR(i) ((char)(i + int('0')))
 #define maxall(v) *max_element(all(v))
 #define minall(v) *min_element(all(v))
 #define max3(a,b,c) max(a,max(b,c))
 #define min3(a,b,c) min(a,min(b,c))
 #define btz(a)   __builtin_ctz(a)
 #define Mems(p,n) memset(p, n, sizeof(p))
-#define makeint(n,s)  istringstream(s)>>n
 #define BOUNDARY(i,j,Row,Col) ((i >= 0 && i < Row) && (j >= 0 && j < Col))
 #define ubound(d,val)  int (upper_bound (d.begin(), d.end(), val) - d.begin())
 #define lbound(d,val)  int (lower_bound (d.begin(), d.end(), val) - d.begin())
-#define M 50000
+
 using namespace std;
 
 //int dx[]= {1,0,-1,0};
@@ -75,8 +79,8 @@ typedef vector<ll> vll;
 typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef pair<ll,bool> pib;
-typedef pair<double,int> pdi;
-typedef pair<int,char> pic;
+typedef pair<double,double> pdd;
+typedef pair<int,double> pid;
 typedef pair< int, pii> ipii;
 
 
@@ -98,7 +102,7 @@ inline bool fs(T &x)
 }
 
 
-int st(int n,int pos)
+int sat(int n,int pos)
 {
     return n=n | (1<<pos);
 }
@@ -106,7 +110,7 @@ int reset(int N,int pos)
 {
     return N= N & ~(1<<pos);
 }
-bool ck(int n,int pos)
+bool cak(int n,int pos)
 {
     return (bool)(n&(1<<pos));
 }
@@ -117,151 +121,70 @@ ll binPow(ll a, ll q, ll mud)
     if (q == 0) return 1;
     return ((q % 2 == 1 ? a : 1) * binPow(a * a, q / 2, mud)) % mud;
 }
+
+#define M (int)1e6
+
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~ Code Starting Point ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vi nod[M+5];
-vi cost[M+5];
+int z[M+5];
 
-int sp[M][16];
-int d[M+5];
-int l[M+5];
-int par[M+5];
-
-void dfs(int from,int u,int dep)
+int zed(string str)
 {
-    l[u]=dep;
-    for(int i=0;i<nod[u].size();i++)
+    z[0]=str.size();
+    int l,r;
+    l=r=0;
+    for(int i=1;str[i];i++)
     {
-        int v=nod[u][i];
-        if(from==v)
-            continue;
-        par[v]=u;
-        d[v]=d[u]+cost[u][i];
-        dfs(u,v,dep+1);
-    }
-}
-
-
-void init(int n)
-{
-    Mems(sp,-1);
-
-    for(int i=1;i<=n;i++)
-    sp[i][0]=par[i];
-
-    for(int i=1;i<=n;i++)
-    for(int j=1;(1<<j)<n;j++)
-    {
-        if(sp[i][j-1]!=-1)
-        sp[i][j]=sp[sp[i][j-1]][j-1];
-    }
-}
-
-
-int lca(int n,int a,int b)
-{
-    if(l[a]<l[b])
-        swap(a,b);
-
-    int lg=log2(l[a]);
-
-    for(int i=lg;i>=0;i--)
-        if(l[a]-(1<<i)>=l[b])
-            a=sp[a][i];
-    if(a==b)
-        return a;
-    for(int i=lg;i>=0;i--)
-        if(sp[a][i]!=-1&&sp[a][i]!=sp[b][i])
-        a=sp[a][i],b=sp[b][i];
-    return par[a];
-}
-
-int fuck(int n,int u)
-{
-    int lg=log2(l[u]);
-    for(int i=lg;i>=0;i--)
-    if((1<<i)<=n)
-    {
-        n-=(1<<i);
-        u=sp[u][i];
-    }
-    return u;
-}
-
-
-
-int main()
-{
-    int test,u,v,x,n;
-    fs(test);
-
-    while(test--)
-    {
-        fs(n);
-        loop(i,0,n+1)
+        if(i>r)
         {
-            nod[i].clear();
-            cost[i].clear();
-            d[i]=0;
-            par[i]=-1;
+            r=l=i;
+            while(r<z[0]&&str[r]==str[r-l])
+                r++;
+            z[i]=r-l;
+            r--;
         }
-
-        loop(i,0,n-1)
+        else
         {
-            fs(u);
-            fs(v);
-            fs(x);
-            nod[u].pb(v);
-            nod[v].pb(u);
-            cost[u].pb(x);
-            cost[v].pb(x);
-        }
-
-        dfs(-1,1,0);
-        init(n);
-
-        string str;
-
-        while(cin>>str)
-        {
-            if(str=="DONE")
-                break;
-            if(str=="DIST")
+            int k=i-l;
+            if(z[k]<r-i+1)
+                z[i]=z[k];
+            else
             {
-                fs(u);
-                fs(v);
-                int cmn=lca(n,u,v);
-                pf("%d\n",d[u]+d[v]-2*d[cmn]);
-            }
-            if(str=="KTH")
-            {
-                fs(u);
-                fs(v);
-                fs(x);
-                int cmn=lca(n,u,v),ans;
-
-                int kth=l[u]-l[cmn]+1;
-                if(kth==x)
-                    ans=cmn;
-                else if(kth>x)
-                    ans=fuck(x-1,u);
-                else
-                {
-                    kth=l[u]+l[v]-2*l[cmn]+1-x;
-                    ans=fuck(kth,v);
-                }
-                pf("%d\n",ans);
+                l=i;
+                while(r<z[0]&&str[r]==str[r-l])
+                    r++;
+                z[i]=r-l;
+                r--;
             }
         }
-        pf("\n");
     }
+
+    for(int i=1;str[i];i++)
+        if(z[i]==z[0]-i)
+        return z[i];
     return 0;
 }
 
+int main()
+{
+    int n;
+    string str;
 
+    while(cin>>n>>str)
+    {
+        if(n==-1&&str=="*")
+            break;
+        int x=zed(str);
+        int ln=str.size();
+        int rem=ln-x;
 
+        int ans=max(0,(n-x)/rem);
+        pf("%d\n",ans);
+    }
 
-
+    return 0;
+}
 
 
 
