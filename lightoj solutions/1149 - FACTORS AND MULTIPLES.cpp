@@ -1,8 +1,8 @@
 /*
    ~~~ BISMILLAH HIR RAHMANIR RAHIM ~~~
-   Problem Name:
+   Problem Name: 1149 - FACTORS AND MULTIPLES
        Platform: LightOj
-      Algorithm:
+     Algorithom: Bipartite Matching
   Author's Name: RC Tushar
 
 
@@ -35,7 +35,7 @@
 #define gcd(x,y) __gcd(x,y)
 #define lcm(a,b) (a*(b/gcd(a,b)))
 #define on(x,w)  x=x|(1<<w)
-#define check(x,w) (x&(1<<w))==(1<<w)?true:false
+//#define check(x,w) (x&(1<<w))==(1<<w)?true:false
 #define all(x) (x).begin(),(x).end()
 #define rall(x) (x).rbegin(),(x).rend()
 #define s(n) scanf("%d",&n)
@@ -97,18 +97,18 @@ inline bool fs(T &x)
 }
 
 
-int sat(int n,int pos)
-{
-    return n=n | (1<<pos);
-}
-int reset(int N,int pos)
-{
-    return N= N & ~(1<<pos);
-}
-bool cak(int n,int pos)
-{
-    return (bool)(n&(1<<pos));
-}
+//int sat(int n,int pos)
+//{
+//    return n=n | (1<<pos);
+//}
+//int reset(int N,int pos)
+//{
+//    return N= N & ~(1<<pos);
+//}
+//bool cak(int n,int pos)
+//{
+//    return (bool)(n&(1<<pos));
+//}
 
 ll binPow(ll a, ll q, ll mud)
 {
@@ -138,82 +138,72 @@ double dif(T &a,T& b)
     return sqrt(ans);
 }
 
-#define M  1000000
+#define M  100000
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~ Code Starting Point ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-int fr[202],mark[204];
-vector<char> num;
-char ch;
-string str[30];
-map<pii,int> ara;
+vi nod[103];
+int ara[104],mara[105];
+int par[105];
+bool mark[105];
 
-bool pr[202][202];
+int dfs(int u)
+{
+    for(int i=0;i<nod[u].size();i++)
+    {
+        int v=nod[u][i];
+        if(mark[v])
+            continue;
+        mark[v]=true;
+        if(par[v]==-1||dfs(par[v]))
+        {
+            par[v]=u;
+            return true;
+        }
+    }
+    return false;
+}
+
+int match(int n)
+{
+    int cnt=0;
+    Mems(par,-1);
+    for(int i=0;i<n;i++)
+    {
+        Mems(mark,false);
+        if(dfs(i))
+            cnt++;
+    }
+    return cnt;
+}
+
+
 
 int main()
 {
-    int tt,n;
+    int tt,a,b;
     fs(tt);
 
-    for(int kk=1; kk<=tt; kk++)
+    for(int kk=1;kk<=tt;kk++)
     {
-        fs(n);
+        loop(i,0,101)
+        nod[i].clear();
 
-        Mems(fr,0);
-        Mems(pr,false);
+        fs(a);
+        loop(i,0,a)
+        fs(ara[i]);
 
-        loop(i,0,n)
-        {
-            cin>>str[i];
-            fr[str[i][0]]++;
-        }
-        int ev=0;
-        int odd=0;
+        fs(b);
+        loop(i,0,b)
+        fs(mara[i]);
 
-        loop(i,0,n)
-        {
-            Mems(mark,0);
-            num.clear();
-            for(int j=0; j<str[i].size(); j++)
-                if(!mark[str[i][j]])
-                {
-                    num.pb(str[i][j]);
-                    mark[str[i][j]]=true;
-                }
+        loop(i,0,a)
+        loop(j,0,b)
+        if(mara[j]%ara[i]==0)
+            nod[i].pb(j);
 
-            int ln=num.size();
-
-            ch=str[i][0];
-            for(int k=0; k<ln; k++)
-            {
-//                cout<<ch<<' '<<num[k]<<' '<<ara[ch][num[k]]<<endl;
-//                PS;
-                ara[pii(ch,num[k])]= max(ara[pii(ch,num[k])],fr[num[k]]-(ch==num[k]));
-            }
-
-            pii xx;
-            miter(ara,pii,int)
-            {
-                xx=it->F;
-                if(!pr[xx.F][xx.S])
-                {
-//                    cout<<(char)xx.F<<' '<<(char)xx.S<<' '<<it->S<<endl;
-                    if(it->S%2==0)
-                        ev++;
-                    else
-                        odd++;
-                    pr[xx.F][xx.S]=true;
-                }
-            }
-
-        }
-        ara.clear();
-        if(ev)
-            pf("Case %d: YES\n",kk);
-        else
-            pf("Case %d: NO\n",kk);
-
+        pf("Case %d: %d\n",kk,match(a));
     }
 
     return 0;
