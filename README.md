@@ -1,7 +1,7 @@
 
 # ACM-SOLUTION
 
-## THIS FOLDER CONTAINS MY SOLUTION OF THE PROBLEMS I HAVE SOLVED SO FAR IN
+### This folder contains my soltion of the problems I have solved so far on
 
 * [Spoj](http://www.spoj.com) - Sphere online judge
 * [Uva](https://uva.onlinejudge.org) - Uva Online Judge
