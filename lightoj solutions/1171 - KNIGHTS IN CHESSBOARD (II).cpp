@@ -4,7 +4,7 @@
 
    Problem Name: 1171 - KNIGHTS IN CHESSBOARD (II)
        Platform: LightOj
-      Algorithm: Hopcroft–Karp Bipartite Matching
+      Algorithm: Hopcroftâ€“Karp Bipartite Matching
   Author's Name: RC Tushar
 
 
