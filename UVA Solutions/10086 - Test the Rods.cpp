@@ -2,7 +2,7 @@
 
    ~~~ BISMILLAH HIR RAHMANIR RAHIM ~~~
 
-   Problem Name:
+   Problem Name: 10086 - Test the Rods
        Platform: Uva
       Algorithm: DP
   Author's Name: RC Tushar
