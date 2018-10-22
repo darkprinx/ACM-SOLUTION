@@ -2,7 +2,7 @@
 
    ~~~ BISMILLAH HIR RAHMANIR RAHIM ~~~
 
-   Problem Name:
+   Problem Name: 10446 - The Marriage Interview
        Platform: Uva
       Algorithm: DP
   Author's Name: RC Tushar
